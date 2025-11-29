@@ -61,7 +61,7 @@ async def root():
 @app.get("/data/latest", response_model=SensorDataResponse)
 async def get_latest_data():
     """Get the most recent sensor data"""
-    data = await db[COLLECTION_NAME].find_one(sort=[("timestamp", -1)])
+    data = await db[COLLECTION_NAME].find_one({}, {"_id": 0}, sort=[("timestamp", -1)])
     if not data:
         raise HTTPException(status_code=404, detail="No data found")
 
@@ -72,7 +72,7 @@ async def get_latest_data():
 @app.get("/data/history", response_model=List[SensorDataResponse])
 async def get_data_history(limit: int = 100):
     """Get historical sensor data"""
-    cursor = db[COLLECTION_NAME].find().sort("timestamp", -1).limit(limit)
+    cursor = db[COLLECTION_NAME].find({}, {"_id": 0}).sort("timestamp", -1).limit(limit)
     data_list = []
     async for doc in cursor:
         doc["timestamp"] = doc["timestamp"].isoformat()
@@ -89,7 +89,7 @@ async def get_data_by_range(start_time: str, end_time: str):
 
         cursor = db[COLLECTION_NAME].find({
             "timestamp": {"$gte": start_dt, "$lte": end_dt}
-        }).sort("timestamp", -1)
+        }, {"_id": 0}).sort("timestamp", -1)
 
         data_list = []
         async for doc in cursor:
