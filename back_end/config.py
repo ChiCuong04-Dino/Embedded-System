@@ -12,4 +12,4 @@ ADAFRUIT_IO_KEY = os.getenv("ADAFRUIT_IO_KEY")
 
 # Adafruit IO URLs
 POLLING_URL = f"https://io.adafruit.com/api/v2/{ADAFRUIT_IO_USERNAME}/feeds/es-ass.display-data"
-CONTROL_URL = f"https://io.adafruit.com/api/v2/{ADAFRUIT_IO_USERNAME}/feeds/es-ass.control-device"
+CONTROL_URL = f"https://io.adafruit.com/api/v2/{ADAFRUIT_IO_USERNAME}/groups/es-ass/feeds/control-device/data"
